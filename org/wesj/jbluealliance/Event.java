@@ -27,15 +27,15 @@ public class Event
 
 		key = source.getString("key");
 		name = source.getString("name");
-		short_name = source.getString("short_name");
+		short_name = source.optString("short_name");
 		event_code = source.getString("event_code");
 		location = source.getString("location");
 		venue_address = source.get("venue_address").toString();
-		website = source.getString("website");
+		website = source.optString("website");
 		year = source.getInt("year");
 		official = source.getBoolean("official");
 		eventType = EventType.getInstance(source.getInt("event_type"));
-		districtType = DistrictType.getInstance(source.getInt("event_district"));
+		districtType = DistrictType.getInstance(source.optInt("event_district"));
 
 		if (withTeams) {
 			alliances = new LinkedList<Alliance>();
