@@ -3,10 +3,15 @@ package org.wesj.jbluealliance;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 
 public class Event
 {
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
 	private final String key;
 	private final String name;
 	private final String short_name;
@@ -17,7 +22,8 @@ public class Event
 	private final int year;
 	private final boolean official, withTeams;
 	private final EventType eventType;
-	private final DistrictType districtType;
+	private final District district;
+	private Date startDate, endDate;
 
 	private LinkedList<Alliance> alliances;
 
@@ -35,7 +41,14 @@ public class Event
 		year = source.optInt("year");
 		official = source.optBoolean("official");
 		eventType = EventType.getInstance(source.optInt("event_type"));
-		districtType = DistrictType.getInstance(source.optInt("event_district"));
+		district = District.getInstance(source.optInt("event_district"));
+		try {
+			startDate = dateFormat.parse(source.getString("start_date"));
+			endDate = dateFormat.parse(source.getString("end_date"));
+		} catch (ParseException e) {
+			startDate = null;
+			endDate = null;
+		}
 
 		if (withTeams) {
 			alliances = new LinkedList<Alliance>();
@@ -95,9 +108,9 @@ public class Event
 		return eventType;
 	}
 
-	public DistrictType getDistrictType()
+	public District getDistrict()
 	{
-		return districtType;
+		return district;
 	}
 
 	public boolean isWithTeams()
@@ -110,4 +123,13 @@ public class Event
 		else return alliances.toArray(new Alliance[alliances.size()]);
 	}
 
+	public Date getStartDate()
+	{
+		return startDate;
+	}
+
+	public Date getEndDate()
+	{
+		return endDate;
+	}
 }

@@ -45,4 +45,16 @@ public class BlueAllianceAPIClientTest
 		assertEquals(results.getTeamRanking(2363)[0], "2");
 		assertEquals(results.getTeamRanking(2363)[2], "82.55");
 	}
+
+	@Test
+	public void testDistrictRankingsRequest() {
+		DistrictRanking[] results = blue.districtRankingsRequest(District.MICHIGAN, 2015);
+		DistrictRanking bedford = results[0];
+		assertEquals(bedford.getTeamNum(), 1023);
+		assertEquals(bedford.getEventsVisited().size(), 3);
+
+		DistrictRanking.EventPoints micmp = bedford.getEventResult("2015micmp");
+		assertEquals(micmp.getElimPoints(), 90);
+		assertTrue(micmp.isDistrictChampionship());
+	}
 }

@@ -1,6 +1,6 @@
 package org.wesj.jbluealliance;
 
-public enum DistrictType
+public enum District
 {
 	REGIONAL (0, "", "", ""),
 	MICHIGAN (1, "Michigan", "fim", "FIRST in Michigan"),
@@ -8,23 +8,25 @@ public enum DistrictType
 	NEW_ENGLAND (3, "New England", "ne", "New England"),
 	PACIFIC_NORTHWEST (4, "Pacific Northwest", "pnw", "Pacific Northwest"),
 	INDIANA (5, "Indiana", "in", "IndianaFIRST"),
-	VIRGINIA (6, "Virginia", "va", "VirginiaFIRST");
+	CHESAPEAKE (6, "Chesapeake", "chs", "FIRST Chesapeake"),
+	NORTH_CAROLINA (7, "North Carolina", "nc", "North Carolina"),
+	GEORGIA (8, "Georgia", "pch", "Peachtree District");
 
 	private final int value;
 	private final String name;
 	private final String abbrev;
 	private final String long_name;
 
-	public static DistrictType getInstance(int constant)
+	public static District getInstance(int constant)
 	{
-		for(DistrictType e : values()) {
+		for(District e : values()) {
 			if(e.value == constant) return e;
 		}
 
 		return REGIONAL;
 	}
 
-	private DistrictType(int value, String name, String abbrev, String long_name)
+	private District(int value, String name, String abbrev, String long_name)
 	{
 		this.value = value;
 		this.name = name;

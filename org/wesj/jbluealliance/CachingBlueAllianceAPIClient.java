@@ -66,7 +66,10 @@ public class CachingBlueAllianceAPIClient extends BlueAllianceAPIClient
 				rd.close();
 				writeCache(result.toString(), requestCode);
 				return result.toString();
-			} else System.out.println(responseCode);
+			} else {
+				System.out.println(responseCode);
+				System.out.println(conn.getResponseMessage());
+			}
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

@@ -9,13 +9,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class BlueAllianceAPIClient
 {
 	private final String appId;
+	private int currYear = new Date().getYear();
 
 	public BlueAllianceAPIClient (String appId)
 	{
@@ -132,6 +131,10 @@ public class BlueAllianceAPIClient
 		TeamMedia[] media = new TeamMedia[jsonMedia.length()];
 		for(int i=0; i<media.length; i++) media[i] = new TeamMedia(jsonMedia.getJSONObject(i));
 		return media;
+	}
+
+	public Event[] eventListRequest() {
+		return eventListRequest(currYear);
 	}
 
 	public Event[] eventListRequest (int year)
@@ -257,6 +260,50 @@ public class BlueAllianceAPIClient
 			if(match.getLevel().ordinal() > maxlevel.ordinal()) maxlevel = match.getLevel();
 		}
 		return maxlevel;
+	}
+
+	public Event[] districtEventsRequest(District district) {
+		return districtEventsRequest(district, currYear);
+	}
+
+	public Event[] districtEventsRequest(District district, int year) {
+		String url = "https://www.thebluealliance.com/api/v2/district" + district.getAbbrev() +
+				"/" + year + "/events";
+		JSONArray jsonEvents = new JSONArray(getHTML(url));
+		Event[] events = new Event[jsonEvents.length()];
+		for(int i=0; i<events.length; i++) events[i] = new Event(jsonEvents.getJSONObject(i), true);
+		return events;
+	}
+
+	public DistrictRanking[] districtRankingsRequest(District district) {
+		return districtRankingsRequest(district, currYear);
+	}
+
+	public DistrictRanking[] districtRankingsRequest(District district, int year)
+	{
+		String url = "https://www.thebluealliance.com/api/v2/district/" + district.getAbbrev() +
+				"/" + year + "/rankings";
+		JSONArray jsonRankings = new JSONArray(getHTML(url));
+		DistrictRanking[] rankings = new DistrictRanking[jsonRankings.length()];
+		for (int i = 0; i < rankings.length; i++) {
+			rankings[i] = new DistrictRanking(jsonRankings.getJSONObject(i));
+		}
+
+		return rankings;
+	}
+
+	public Team[] districtTeamsRequest (District district) {
+		return districtTeamsRequest(district, currYear);
+	}
+
+	public Team[] districtTeamsRequest (District district, int year)
+	{
+		String url = "https://www.thebluealliance.com/api/v2/district/" + district.getAbbrev() +
+				"/" + year + "/teams";
+		JSONArray jsonTeams = new JSONArray(getHTML(url));
+		Team[] teams = new Team[jsonTeams.length()];
+		for(int i=0; i<teams.length; i++) teams[i] = new Team(jsonTeams.getJSONObject(i));
+		return teams;
 	}
 
 	public String getHTML(String url)
