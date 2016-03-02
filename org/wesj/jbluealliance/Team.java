@@ -1,32 +1,38 @@
 package org.wesj.jbluealliance;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Team implements Comparable<Team>
 {
-	private final String website;
-	private final String name;
-	private final String long_name;
-	private final String locality;
-	private final String state;
-	private final String country;
-	private final String location;
-	private final String key;
-	private final int teamNum;
-	private final int rookie_year;
+	private String website;
+	private String name;
+	private String long_name;
+	private String locality;
+	private String state;
+	private String country;
+	private String location;
+	private String key;
+	private int teamNum;
+	private int rookie_year;
 
 	public Team(JSONObject source)
 	{
-		website = source.get("website").toString();
-		name = source.getString("nickname");
-		long_name = source.getString("name");
-		locality = source.getString("locality");
-		state = source.getString("region");
-		country = source.getString("country_name");
-		location = source.getString("location");
-		teamNum = source.getInt("team_number");
-		key = source.getString("key");
-		rookie_year = source.getInt("rookie_year");
+		try {
+			website = source.opt("website").toString();
+			name = source.optString("nickname");
+			long_name = source.optString("name");
+			locality = source.optString("locality");
+			state = source.optString("region");
+			country = source.optString("country_name");
+			location = source.optString("location");
+			teamNum = source.optInt("team_number");
+			key = source.optString("key");
+			rookie_year = source.optInt("rookie_year", 0);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			System.out.println(source.toString(5));
+		}
 	}
 
 	@Override

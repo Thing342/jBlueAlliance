@@ -13,7 +13,7 @@ public class Alliance
 	private final String[] teams;
 	private final String[] declines;
 
-	public Alliance (boolean color, boolean isElimination, JSONObject json)
+	public Alliance(boolean color, boolean isElimination, JSONObject json)
 	{
 		this.color = color;
 		this.isElimination = isElimination;
@@ -42,6 +42,16 @@ public class Alliance
 	{
 		for(String s : teams) if (s.equals("frc" + team)) return true;
 		return false;
+	}
+
+	public int getTeamPick(Team team)
+	{
+		if(!isElimination) return -1;
+		for (int i = 0; i < teams.length; i++) {
+			if(teams[i].equals(team.getKey())) return i;
+		}
+
+		return -1;
 	}
 	
 	public int getTeam(int pos)

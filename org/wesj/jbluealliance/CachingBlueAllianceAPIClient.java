@@ -80,14 +80,13 @@ public class CachingBlueAllianceAPIClient extends BlueAllianceAPIClient
 
 	private String getRequestCode(String url)
 	{
-		String code = url.replace("http://www.thebluealliance.com/api/v2/", "");
+		String code = url.replace("https://www.thebluealliance.com/api/v2/", "");
 		code = code.replace("/", "_");
 		return code;
 	}
 
 	private void writeCache (final String text, final String requestCode)
 	{
-		System.out.println(text);
 		new Thread(new Runnable() {
 
 			@Override

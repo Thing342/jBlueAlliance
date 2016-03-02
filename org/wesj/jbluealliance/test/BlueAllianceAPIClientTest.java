@@ -37,4 +37,12 @@ public class BlueAllianceAPIClientTest
 		assertEquals(results[1].getName(), "Innovation in Control Award sponsored by Rockwell Automation");
 		assertEquals(results[1].getType(), Award.AwardType.INNOVATION_IN_CONTROL);
 	}
+
+	@Test
+	public void testEventRankingsRequest() {
+		EventRankings results = blue.eventRankingsRequest(2015, "mdcp");
+		assertTrue(results != null);
+		assertEquals(results.getTeamRanking(2363)[0], "2");
+		assertEquals(results.getTeamRanking(2363)[2], "82.55");
+	}
 }

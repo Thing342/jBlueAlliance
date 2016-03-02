@@ -25,23 +25,23 @@ public class Event
 	{
 		this.withTeams = withTeams;
 
-		key = source.getString("key");
-		name = source.getString("name");
+		key = source.optString("key");
+		name = source.optString("name");
 		short_name = source.optString("short_name");
-		event_code = source.getString("event_code");
-		location = source.getString("location");
-		venue_address = source.get("venue_address").toString();
+		event_code = source.optString("event_code");
+		location = source.optString("location");
+		venue_address = source.optString("venue_address");
 		website = source.optString("website");
-		year = source.getInt("year");
-		official = source.getBoolean("official");
-		eventType = EventType.getInstance(source.getInt("event_type"));
+		year = source.optInt("year");
+		official = source.optBoolean("official");
+		eventType = EventType.getInstance(source.optInt("event_type"));
 		districtType = DistrictType.getInstance(source.optInt("event_district"));
 
 		if (withTeams) {
 			alliances = new LinkedList<Alliance>();
 			JSONArray alliancesJSON = source.getJSONArray("alliances");
 			for (int i = 0; i < alliancesJSON.length(); i++)
-				alliances.add(new Alliance(true, true, alliancesJSON.getJSONObject(i)));
+				alliances.add(new Alliance(i >= 3, true, alliancesJSON.getJSONObject(i)));
 		}
 	}
 
@@ -104,4 +104,10 @@ public class Event
 	{
 		return withTeams;
 	}
+
+	public Alliance[] getAlliances() {
+		if(!withTeams) return null;
+		else return alliances.toArray(new Alliance[alliances.size()]);
+	}
+
 }

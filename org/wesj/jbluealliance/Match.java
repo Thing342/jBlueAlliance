@@ -16,13 +16,13 @@ public class Match implements Comparable<Match>
 
 	public Match(JSONObject json)
 	{
-		this.key = json.getString("key");
-		this.set_number = json.getInt("set_number");
-		this.match_number = json.getInt("match_number");
-		this.event_key = json.getString("event_key");
+		this.key = json.optString("key");
+		this.set_number = json.optInt("set_number");
+		this.match_number = json.optInt("match_number");
+		this.event_key = json.optString("event_key");
 		this.time_string = json.optString("time_string");
-		this.level = MatchCompetitionLevel.getInstance(json.getString("comp_level"));
-		this.timestamp = json.getLong("time");
+		this.level = MatchCompetitionLevel.getInstance(json.optString("comp_level"));
+		this.timestamp = json.optLong("time");
 
 		JSONObject alliances = json.getJSONObject("alliances");
 		redAlliance = new Alliance(Alliance.RED, false, alliances.getJSONObject("red"));
@@ -103,8 +103,8 @@ public class Match implements Comparable<Match>
 	public enum MatchCompetitionLevel
 	{
 		QUALIFICATION("qm"),
-		EINSTEIN("ef"),
-		QUARTERFINALS("qf"),
+		EIGHTH_FINALS("ef"),
+		QUARTER_FINALS("qf"),
 		SEMIFINALS("sf"),
 		FINALS("f");
 
@@ -127,5 +127,6 @@ public class Match implements Comparable<Match>
 		{
 			return tag;
 		}
+
 	}
 }
